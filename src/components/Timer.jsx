@@ -1,71 +1,70 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Typography, Progress, Row, Col } from 'antd';
+import formatDate from '../functions';
 import sound from '../audio/ding.mp3';
 import InputTime from './InputTime';
-import SliderTime from './sliderTime';
+import SliderTime from './SliderTime';
 
 const { Title } = Typography;
 
 class Timer extends Component {
   state = {
     isRunning: false,
+    isEnd: true,
+    frameId: null,
     currentTime: 0,
     prevTime: 0,
     endTime: 0,
-    minutes: 0,
-    seconds: 0,
-    hours: 0,
-    audioEffect: new Audio(sound),
   };
 
-  getMsFromFormattedTime() {
-    const { hours, minutes, seconds } = this.state;
-    return hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000;
+  componentWillUnmount() {
+    const { frameId } = this.state;
+    cancelAnimationFrame(frameId);
+    this.setState({ frameId: null });
   }
 
-  onSliderChange = value =>
-    this.setState({
-      minutes: new Date(value * 1000).getUTCMinutes(),
-      seconds: new Date(value * 1000).getUTCSeconds(),
-      hours: new Date(value * 1000).getUTCHours(),
-    });
+  onSliderChange = value => this.setState({ endTime: value * 1000 });
 
-  onMinChange = value =>
-    this.setState({
-      minutes: new Date(value * 1000 * 60).getUTCMinutes(),
-      hours: new Date(value * 1000 * 60).getUTCHours(),
-    });
+  isNumeric = val => !Number.isNaN(parseInt(val, 10)) && Number.isFinite(val);
 
-  onSecChange = value =>
-    this.setState({
-      seconds: value,
-    });
+  playSound = () => {
+    const audioEffect = new Audio(sound);
+    audioEffect.play();
+  };
+
+  onMinChange = value => {
+    if (!this.isNumeric(value) || value >= 720) {
+      return;
+    }
+    const { endTime } = this.state;
+    const newEndTime = new Date(endTime).setUTCHours(0, 0) + value * 60 * 1000;
+    this.setState({ endTime: newEndTime });
+  };
+
+  onSecChange = value => {
+    if (!this.isNumeric(value) || value >= 60) {
+      return;
+    }
+    const { endTime } = this.state;
+    const newEndTime = new Date(endTime).setSeconds(0) + value * 1000;
+    this.setState({ endTime: newEndTime });
+  };
 
   handleStart = () => {
     const { endTime } = this.state;
     const { type } = this.props;
-    if (!this.getMsFromFormattedTime() && type === 'countdown') return;
-    const newEndTime = this.getMsFromFormattedTime();
+    if (!endTime && type === 'countdown') {
+      return;
+    }
     this.setState(
       {
         isRunning: true,
+        isEnd: false,
         prevTime: Date.now(),
-        endTime: endTime || newEndTime,
       },
       this.proccessTime
     );
-  };
-
-  handleEnd = () => {
-    const { audioEffect } = this.state;
-    audioEffect.play();
-    this.setState({
-      isRunning: false,
-      currentTime: 0,
-      prevTime: 0,
-      endTime: 0,
-    });
   };
 
   handlePause = () => this.setState({ isRunning: false });
@@ -73,32 +72,27 @@ class Timer extends Component {
   handleReset = () =>
     this.setState({
       isRunning: false,
+      isEnd: true,
       currentTime: 0,
       prevTime: 0,
       endTime: 0,
     });
 
-  formatDate = date => {
-    const milliSec = `00${new Date(date).getMilliseconds()}`.slice(-3);
-    const sec = `0${new Date(date).getSeconds()}`.slice(-2);
-    const min = `0${new Date(date).getMinutes()}`.slice(-2);
-    const hour = `0${new Date(date).getUTCHours()}`.slice(-2);
-    return `${hour}:${min}:${sec}:${milliSec}`;
-  };
-
   proccessTime = () => {
     const { isRunning, prevTime, currentTime, endTime } = this.state;
     const { type } = this.props;
-    if (currentTime >= endTime && type === 'countdown') {
-      this.handleEnd();
-      return;
-    }
+
     if (isRunning) {
+      if (currentTime >= endTime && type === 'countdown') {
+        this.playSound();
+        this.handleReset();
+        return;
+      }
       this.setState({
         currentTime: currentTime + Date.now() - prevTime,
         prevTime: Date.now(),
+        frameId: requestAnimationFrame(this.proccessTime),
       });
-      requestAnimationFrame(this.proccessTime);
     }
   };
 
@@ -125,7 +119,7 @@ class Timer extends Component {
     return (
       <div className="stopwatch">
         {type === 'countdown' && inputBlock}
-        <Title>{this.formatDate(Math.abs(endTime - currentTime))}</Title>
+        <Title>{formatDate(Math.abs(endTime - currentTime))}</Title>
         {isRunning ? pauseButton : startButton}
         <Button type="danger" onClick={this.handleReset}>
           Reset

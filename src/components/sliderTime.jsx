@@ -1,26 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Slider } from 'antd';
+import formatDate from '../functions';
 
 const SliderTime = props => {
-  const { isRunning, onSliderChange, seconds, minutes, hours } = props;
-  const formatTooltip = () => {
-    const tooltipHours = `0${hours}`.slice(-2);
-    const tooltipMinutes = `0${minutes}`.slice(-2);
-    const tooltipSeconds = `0${seconds}`.slice(-2);
-    return `${tooltipHours}:${tooltipMinutes}:${tooltipSeconds}`;
-  };
-  const value = new Date(hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000) / 1000;
+  const { onSliderChange, endTime, isEnd } = props;
+  const seconds = Math.floor(endTime / 1000);
+
   return (
     <Row type="flex" justify="center">
       <Col span={6}>
         <Slider
           step={15}
           max={3600}
-          disabled={isRunning}
-          value={value}
+          disabled={!isEnd}
+          value={seconds}
           onChange={onSliderChange}
-          tipFormatter={formatTooltip}
+          tipFormatter={() => formatDate(endTime).slice(0, -4)}
         />
       </Col>
     </Row>
@@ -29,10 +25,8 @@ const SliderTime = props => {
 
 SliderTime.propTypes = {
   onSliderChange: PropTypes.func.isRequired,
-  minutes: PropTypes.number.isRequired,
-  seconds: PropTypes.number.isRequired,
-  hours: PropTypes.number.isRequired,
-  isRunning: PropTypes.bool.isRequired,
+  isEnd: PropTypes.bool.isRequired,
+  endTime: PropTypes.number.isRequired,
 };
 
 export default SliderTime;

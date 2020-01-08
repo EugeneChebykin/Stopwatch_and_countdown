@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import { Row, Col, InputNumber } from 'antd';
 
 const InputTime = props => {
-  const { isRunning, onMinChange, onSecChange, minutes, seconds, hours } = props;
-  const time = new Date(hours * 60 * 60 * 1000 + minutes * 60 * 1000) / 1000 / 60;
+  const { onMinChange, onSecChange, endTime, isEnd } = props;
+  const minutes = Math.floor(endTime / 1000 / 60);
+  const seconds = new Date(endTime).getUTCSeconds();
   return (
     <Row type="flex" justify="center" align="middle">
       <Col>
         <InputNumber
           onChange={onMinChange}
-          formatter={val => `0${val}`.slice(-2)}
-          value={time}
-          disabled={isRunning}
+          formatter={val => (val >= 100 ? val : `0${val}`.slice(-2))}
+          parser={val => Number(val)}
+          value={minutes}
+          disabled={!isEnd}
           size="large"
           min={0}
           max={719}
@@ -23,8 +25,9 @@ const InputTime = props => {
         <InputNumber
           onChange={onSecChange}
           formatter={val => `0${val}`.slice(-2)}
+          parser={val => Number(val)}
           value={seconds}
-          disabled={isRunning}
+          disabled={!isEnd}
           size="large"
           min={0}
           max={59}
@@ -37,10 +40,8 @@ const InputTime = props => {
 InputTime.propTypes = {
   onMinChange: PropTypes.func.isRequired,
   onSecChange: PropTypes.func.isRequired,
-  minutes: PropTypes.number.isRequired,
-  seconds: PropTypes.number.isRequired,
-  hours: PropTypes.number.isRequired,
-  isRunning: PropTypes.bool.isRequired,
+  isEnd: PropTypes.bool.isRequired,
+  endTime: PropTypes.number.isRequired,
 };
 
 export default InputTime;
