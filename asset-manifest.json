@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Stopwatch_and_countdown/static/css/main.eab24d3c.chunk.css",
-    "main.js": "/Stopwatch_and_countdown/static/js/main.0c5a1f7d.chunk.js",
-    "main.js.map": "/Stopwatch_and_countdown/static/js/main.0c5a1f7d.chunk.js.map",
+    "main.js": "/Stopwatch_and_countdown/static/js/main.bf253a9f.chunk.js",
+    "main.js.map": "/Stopwatch_and_countdown/static/js/main.bf253a9f.chunk.js.map",
     "runtime-main.js": "/Stopwatch_and_countdown/static/js/runtime-main.b286ea50.js",
     "runtime-main.js.map": "/Stopwatch_and_countdown/static/js/runtime-main.b286ea50.js.map",
     "static/css/2.aef8ad04.chunk.css": "/Stopwatch_and_countdown/static/css/2.aef8ad04.chunk.css",
     "static/js/2.ca0c459d.chunk.js": "/Stopwatch_and_countdown/static/js/2.ca0c459d.chunk.js",
     "static/js/2.ca0c459d.chunk.js.map": "/Stopwatch_and_countdown/static/js/2.ca0c459d.chunk.js.map",
     "index.html": "/Stopwatch_and_countdown/index.html",
-    "precache-manifest.6477c8fe6772bfc9462b63a3ebbe3701.js": "/Stopwatch_and_countdown/precache-manifest.6477c8fe6772bfc9462b63a3ebbe3701.js",
+    "precache-manifest.43aa9aa673a992c6acd41dbb493247c7.js": "/Stopwatch_and_countdown/precache-manifest.43aa9aa673a992c6acd41dbb493247c7.js",
     "service-worker.js": "/Stopwatch_and_countdown/service-worker.js",
     "static/css/2.aef8ad04.chunk.css.map": "/Stopwatch_and_countdown/static/css/2.aef8ad04.chunk.css.map",
     "static/css/main.eab24d3c.chunk.css.map": "/Stopwatch_and_countdown/static/css/main.eab24d3c.chunk.css.map",
@@ -21,6 +21,6 @@
     "static/css/2.aef8ad04.chunk.css",
     "static/js/2.ca0c459d.chunk.js",
     "static/css/main.eab24d3c.chunk.css",
-    "static/js/main.0c5a1f7d.chunk.js"
+    "static/js/main.bf253a9f.chunk.js"
   ]
 }

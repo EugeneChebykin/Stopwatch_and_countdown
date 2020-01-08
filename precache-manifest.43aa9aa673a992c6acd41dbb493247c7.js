@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1b41ac4da78222c5f949ca8e488284b3",
+    "revision": "1151be8b86745d17c7e41ca395e40aad",
     "url": "/Stopwatch_and_countdown/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Stopwatch_and_countdown/static/css/2.aef8ad04.chunk.css"
   },
   {
-    "revision": "1024e6ed8578352a4f4d",
+    "revision": "d7cf3d0673653d0fa2b2",
     "url": "/Stopwatch_and_countdown/static/css/main.eab24d3c.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Stopwatch_and_countdown/static/js/2.ca0c459d.chunk.js.LICENSE"
   },
   {
-    "revision": "1024e6ed8578352a4f4d",
-    "url": "/Stopwatch_and_countdown/static/js/main.0c5a1f7d.chunk.js"
+    "revision": "d7cf3d0673653d0fa2b2",
+    "url": "/Stopwatch_and_countdown/static/js/main.bf253a9f.chunk.js"
   },
   {
     "revision": "de8c77638a9a3dcd2ea2",
